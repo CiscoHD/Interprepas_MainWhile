@@ -23,7 +23,7 @@ downColor = pg.Color(255,0,0)
 ilustrationColor = pg.Color(0,200,255)
 textColor = pg.Color(0,0,0)
 
-statusPuente = "Detenido"
+statusPuente = "Abajo"
 running = True
 mousePos = (0,0)
 click = (0,0,0,0,0)
@@ -36,7 +36,7 @@ pg.draw.rect(screen, ilustrationColor, ilustrationDim, 0)
 
 def platformUp():
     enable1.value = 1
-    enable2.value = 1
+    enable2.value = .6
     output1.on()
     output2.off()
 
@@ -48,7 +48,7 @@ def stopPlatform():
 
 def platformDown():
     enable1.value = 1
-    enable2.value = 1
+    enable2.value = .6
     output1.off()
     output2.on()
 
@@ -72,12 +72,12 @@ def stoppedPosition():
         pg.draw.rect(screen, upColor, buttons[0], 0)
         pg.draw.rect(screen, downColor, buttons[1], 0)
         pg.draw.rect(screen, ilustrationColor, ilustrationDim, 0)
-        #stopPlatform()
+        stopPlatform()
     return platformStatus()
     
 
 def buttonPress(mouseX, mouseY, button, status):
-    if mouseX > button[0] and mouseX < button[0] + button[2] and status == "Detenido":
+    if mouseX > button[0] and mouseX < button[0] + button[2] and (status == "Arriba" or status == "Abajo"):
         if mouseY > button[1] and mouseY < button[1] + button[3]:
             return True
         else:
@@ -90,7 +90,7 @@ def drawText (texto, x, y, color):
     screen.blit(varText, (x, y))
 
 while running == True:
-    mousePos = pg.mouse.get.pos()
+    mousePos = pg.mouse.get_pos()
     click = pg.mouse.get_pressed()
 
     if buttonPress(mousePos[0], mousePos[1], buttons[0], statusPuente):
@@ -105,9 +105,10 @@ while running == True:
             platformDown()
             statusPuente = "Moviendose"
             drawText("Bajando", 350, 200, textColor)
-    statusPuente = stoppedPosition(statusPuente)
+    statusPuente = stoppedPosition()
 
     clock.tick(30)
+    pg.time.wait(3000)
     pg.display.flip()
 
     for event in pg.event.get():

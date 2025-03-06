@@ -28,7 +28,7 @@ def elevar_plataforma():
     
     print("Elevando plataforma...")
     enable1.value = 1
-    enable2.value = 1
+    enable2.value = .6
     output1.on()
     output2.off()
 
@@ -40,7 +40,7 @@ def bajar_plataforma():
     
     print("Bajando plataforma...")
     enable1.value = 1
-    enable2.value = 1
+    enable2.value = .6
     output1.off()
     output2.on()
 

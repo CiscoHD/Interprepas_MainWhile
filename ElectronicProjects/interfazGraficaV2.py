@@ -2,7 +2,7 @@ import pygame as pg
 import gpiozero as gz
 
 pg.init()
-'''input1 = gz.DigitalOutputDevice(14)
+input1 = gz.DigitalOutputDevice(14)
 input2 = gz.DigitalOutputDevice(15)
 enable1 = gz.PWMOutputDevice(18) #Motor1
 enable2 = gz.PWMOutputDevice(13) #Motor2'''
@@ -48,23 +48,23 @@ def drawText(texto, x, y, color):
     varText = font.render(texto, True, color)
     screen.blit(varText, (x, y))
 
-'''def foward():
+def foward():
     input1.on()
     input2.off()
-    enable1.value = 0.9
-    enable2.value = 1
+    enable1.value = 1
+    enable2.value = .6
 
 def backward(): 
     input1.off()
     input2.on()
     enable1.value = 1
-    enable2.value = 0.9
+    enable2.value = .6
 
 def stop():
     input1.off()
     input2.off()
     enable1.value = 0
-    enable2.value = 0'''
+    enable2.value = 0
 
 def limpiarPantalla(tiempo, i, status):
     if i == tiempo:
@@ -72,7 +72,7 @@ def limpiarPantalla(tiempo, i, status):
         pg.draw.rect(screen, upColor, upButton, 0)
         pg.draw.rect(screen, downColor, downButton, 0)
         pg.draw.rect(screen, ilustrationColor, ilustration, 0)
-        #stop()
+        stop()
         i = 0
         status = "Detenido"
     return i, status
@@ -83,14 +83,14 @@ while running == True:
     if buttonPress(mousePos[0], mousePos[1], buttons[0][0], buttons[1][0], buttons[2][0], buttons[3][0], statusPuente):
         if click == (1,0,0,0,0):
             statusPuente = "Subida"
-            #foward()
+            foward()
             drawText("Subiendo", 350, 100, textColor)
             i = 0
 
     elif buttonPress(mousePos[0], mousePos[1], buttons[0][1], buttons[1][1], buttons[2][1], buttons[3][1], statusPuente):
         if click == (1,0,0,0,0):
             statusPuente = "Bajada"
-            #backward()
+            backward()
             drawText("Bajando", 350, 100, textColor)
             i = 0
 
