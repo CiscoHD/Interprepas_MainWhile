@@ -105,10 +105,10 @@ while running == True:
             platformDown()
             statusPuente = "Moviendose"
             drawText("Bajando", 350, 200, textColor)
+    pg.time.wait(3000)
     statusPuente = stoppedPosition()
 
     clock.tick(30)
-    pg.time.wait(3000)
     pg.display.flip()
 
     for event in pg.event.get():
