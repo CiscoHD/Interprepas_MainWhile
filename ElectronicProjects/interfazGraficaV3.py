@@ -99,6 +99,9 @@ while running == True:
             closeServo()
             statusPuente = "Moviendose"
             drawText("Subiendo", 350, 200, textColor)
+            if upButton.is_pressed:
+                statusPuente = "Arriba"
+                stopPlatform()
             pg.time.wait(3000)
     
     elif buttonPress(mousePos[0], mousePos[1], buttons[1], statusPuente):
@@ -106,6 +109,9 @@ while running == True:
             platformDown()
             statusPuente = "Moviendose"
             drawText("Bajando", 350, 200, textColor)
+            if downButton.is_pressed:
+                statusPuente = "Abajo"
+                stopPlatform()
             pg.time.wait(3000)
     statusPuente = stoppedPosition()
 
