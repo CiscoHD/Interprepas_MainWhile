@@ -36,7 +36,7 @@ pg.draw.rect(screen, ilustrationColor, ilustrationDim, 0)
 
 def platformUp():
     enable1.value = 1
-    enable2.value = .6
+    enable2.value = .65
     output1.on()
     output2.off()
 
@@ -48,7 +48,7 @@ def stopPlatform():
 
 def platformDown():
     enable1.value = 1
-    enable2.value = .6
+    enable2.value = .65
     output1.off()
     output2.on()
 
