@@ -1,23 +1,14 @@
 import pygame as pg
-import gpiozero as gz
+import gpiozero as gp 
 
-#Set up the GPIO pins
-output1 = gz.OutputDevice(14)
-output2 = gz.OutputDevice(15)
-enable1 = gz.PWMOutputDevice(18)
-enable2 = gz.PWMOutputDevice(13)
-servo = gz.Servo(23, min_pulse_width=0.0005, max_pulse_width=0.0025)
-upButton = gz.Button(2, pull_up=True)
-downButton = gz.Button(3, pull_up=True)
-
-#Set up the pygamen window
 pg.init()
 screen = pg.display.set_mode((800, 600))
-pg.display.set_caption("Control de puente móvil")   
-clock = pg.time.Clock()
+pg.display.set_caption("Interfaz Grafica")
+pg.font.init()
 font = pg.font.Font(None, 36)
+clock = pg.time.Clock()
 
-#colores
+#Definir colores
 bridgeColor = pg.Color(176,118,2)
 borderBridgeColor = pg.Color(84,24,69)
 borderButtonColor = pg.Color(122,122,122)
@@ -27,15 +18,14 @@ downColor = pg.Color(255,0,0)
 ilustrationColor = pg.Color(0,200,255)
 textColor = pg.Color(255,255,255)
 
-#variables de control
-statusPuente = "Abajo"
+#Definir variables
 running = True
-mousePos = (0,0)
-click = (0,0,0,0,0)
 fase = 0
+statusPuente = "Detenido"
+mousePos = (0,0)
+i = 0
 
-
-#coordenadas
+#definirDimensiones
 bridgeParts = (((100,50,60,200), (650, 50, 60, 200)), ((80,250, 100, 60), (630, 250, 100, 60)), ((50, 310, 160, 30 ), (600, 310, 160, 30)))  
 bridgePlatform = (160,60 + (60*fase), 490, 20)
 buttons = ((200, 450, 100, 100), (500, 450,100,100))
@@ -49,42 +39,7 @@ upButton = pg.Rect(buttons[0])
 downButton = pg.Rect(buttons[1])
 ilustration = pg.Rect(ilustrationDim)
 
-pg.draw.rect(screen, upColor, buttons[0], 0)
-pg.draw.rect(screen, downColor, buttons[1], 0)
-pg.draw.rect(screen, ilustrationColor, ilustrationDim, 0)
-
-def platformUp():
-    enable1.value = 1
-    enable2.value = .6
-    output1.on()
-    output2.off()
-
-def stopPlatform():
-    enable1.value = 0
-    enable2.value = 0
-    output1.off()
-    output2.off()
-
-def platformDown():
-    enable1.value = 1
-    enable2.value = .6
-    output1.off()
-    output2.on()
-
-def openServo():
-    servo.value = 0
-
-def closeServo():
-    servo.value = -1
-
-def platformStatus():
-    if upButton.is_pressed:
-        return "Arriba"
-    elif downButton.is_pressed:
-        return "Abajo"
-    else:
-        return "Moviendose"
-
+pg.Surface.fill(screen, backColor)
 def printPlatform(fase):
     bridgePlatform = (160,60 + (60*fase), 490, 20)
     pg.draw.rect(screen, bridgeColor, bridgePlatform, 0)
@@ -109,15 +64,13 @@ def printAll():
     pg.draw.rect(screen, downColor, downButton, 0)
     pg.draw.rect(screen, borderButtonColor, downButton, 2)
 
-def stoppedPosition():
-    if upButton.is_pressed or downButton.is_pressed:
-        pg.Surface.fill(screen, backColor)
-        printAll()
-        stopPlatform()
-    return platformStatus()
+
+def drawText(texto, x, y, color):
+    varText = font.render(texto, True, color)
+    screen.blit(varText, (x, y))
 
 def buttonPress(mouseX, mouseY, button, status):
-    if mouseX > button[0] and mouseX < button[0] + button[2] and (status == "Arriba" or status == "Abajo"):
+    if mouseX > button[0] and mouseX < button[0] + button[2] and status == "Detenido":
         if mouseY > button[1] and mouseY < button[1] + button[3]:
             return True
         else:
@@ -125,57 +78,54 @@ def buttonPress(mouseX, mouseY, button, status):
     else:
         return False
 
-def drawText (texto, x, y, color):
-    varText = font.render(texto, True, color)
-    screen.blit(varText, (x, y))
+def limpiarPantalla(tiempo, i, status):
+    if i == tiempo:
+        pg.Surface.fill(screen, backColor)
+        pg.draw.rect(screen, upColor, upButton, 0)
+        pg.draw.rect(screen, downColor, downButton, 0)
+        pg.draw.rect(screen, ilustrationColor, ilustration, 0)
+        #stop()
+        i = 0
+        status = "Detenido"
+    return i, status
 
-while running == True:
+printAll()
+printPlatform(fase)
+while running:
     mousePos = pg.mouse.get_pos()
-    click = pg.mouse.get_pressed()
-
+    click = pg.mouse.get_pressed(num_buttons = 5)
     if buttonPress(mousePos[0], mousePos[1], buttons[0], statusPuente):
-        if click[0] == 1 and statusPuente == "Abajo":
-            platformUp()
-            closeServo()
-            statusPuente = "Subiendo"
-            if upButton.is_pressed:
-                statusPuente = "Arriba"
-                fase = 0
-                stopPlatform()
-            pg.time.wait(3000)
-    
-    elif buttonPress(mousePos[0], mousePos[1], buttons[1], statusPuente):
-        if click[0] == 1 and statusPuente == "Arriba":
-            platformDown()
-            statusPuente = "Bajando"
-            drawText("Bajando", 350, 200, textColor)
-            if downButton.is_pressed:
-                statusPuente = "Abajo"
-                fase = 1
-                stopPlatform()
-            pg.time.wait(3000)
+        if click == (1,0,0,0,0):
+            statusPuente = "Subida"
+            drawText("Subiendo", 350, 550, textColor)
+            i = 0
 
-    elif statusPuente == "Subiendo":
-        drawText("Subiendo", 350, 200, textColor)
+    elif buttonPress(mousePos[0], mousePos[1], buttons[1], statusPuente):
+        if click == (1,0,0,0,0):
+            statusPuente = "Bajada"
+            drawText("Bajando", 350, 550, textColor)
+            i = 0
+    elif statusPuente == "Bajada":
         if fase < 3:
             fase += 1
+            printAll()
+            printPlatform(fase)
         else:
             fase = 0
-    elif statusPuente == "Bajando":
-        drawText("Bajando", 350, 200, textColor)
+    elif statusPuente == "Subida":
         if fase > 0:
             fase -= 1
+            printAll()
+            printPlatform(fase)
         else:
             fase = 3
-
-    statusPuente = stoppedPosition()
-    printPlatform(fase)
-
-    clock.tick(30)
-    pg.display.flip()
 
     for event in pg.event.get():
         if event.type == pg.QUIT:
             running = False
+    pg.display.flip()
+    i += 1
+    i, statusPuente = limpiarPantalla(30, i, statusPuente)
+    clock.tick(10)
 
 pg.quit()
