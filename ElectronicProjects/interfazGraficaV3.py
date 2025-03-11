@@ -6,7 +6,7 @@ output1 = gz.OutputDevice(14)
 output2 = gz.OutputDevice(15)
 enable1 = gz.PWMOutputDevice(18)
 enable2 = gz.PWMOutputDevice(13)
-servo = gz.Servo(23, min_pulse_width=0.0005, max_pulse_width=0.0025)
+servo = gz.Servo(23, min_pulse_width=0.0005, max_pulse_width=0.002)
 upButton = gz.Button(2, pull_up=True)
 downButton = gz.Button(3, pull_up=True)
 
@@ -36,7 +36,7 @@ pg.draw.rect(screen, ilustrationColor, ilustrationDim, 0)
 
 def platformUp():
     enable1.value = 1
-    enable2.value = .65
+    enable2.value = .80
     output1.on()
     output2.off()
 
@@ -48,7 +48,7 @@ def stopPlatform():
 
 def platformDown():
     enable1.value = 1
-    enable2.value = .65
+    enable2.value = .70
     output1.off()
     output2.on()
 
