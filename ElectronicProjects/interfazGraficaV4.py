@@ -45,8 +45,8 @@ ilustrationDim = (0, 0, 800, 400)
 bridgeSupports = (pg.Rect(bridgeParts[0][0]), pg.Rect(bridgeParts[0][1]))
 bridgeBase = (pg.Rect(bridgeParts[1][0]), pg.Rect(bridgeParts[1][1]))
 bridgePillars = (pg.Rect(bridgeParts[2][0]), pg.Rect(bridgeParts[2][1]))
-upButton = pg.Rect(buttons[0])
-downButton = pg.Rect(buttons[1])
+upButtonDraw = pg.Rect(buttons[0])
+downButtonDraw = pg.Rect(buttons[1])
 ilustration = pg.Rect(ilustrationDim)
 
 pg.draw.rect(screen, upColor, buttons[0], 0)
@@ -70,19 +70,20 @@ def platformDown():
     enable2.value = .70
     output1.off()
     output2.on()
+
 def openServo():
     servo.value = 0
 
 def closeServo():
     servo.value = -1
 
-def platformStatus():
+def platformStatus(statusPuente):
     if upButton.is_pressed:
         return "Arriba"
     elif downButton.is_pressed:
         return "Abajo"
     else:
-        return "Moviendose"
+        return statusPuente
 
 def printPlatform(fase):
     bridgePlatform = (160,60 + (60*fase), 490, 20)
@@ -103,17 +104,17 @@ def printAll():
     pg.draw.rect(screen, borderBridgeColor, bridgePillars[0], 2)
     pg.draw.rect(screen, bridgeColor, bridgePillars[1], 0)
     pg.draw.rect(screen, borderBridgeColor, bridgePillars[1], 2)
-    pg.draw.rect(screen, upColor, upButton, 0)
-    pg.draw.rect(screen, borderButtonColor, upButton, 2)
-    pg.draw.rect(screen, downColor, downButton, 0)
-    pg.draw.rect(screen, borderButtonColor, downButton, 2)
+    pg.draw.rect(screen, upColor, upButtonDraw, 0)
+    pg.draw.rect(screen, borderButtonColor, upButtonDraw, 2)
+    pg.draw.rect(screen, downColor, downButtonDraw, 0)
+    pg.draw.rect(screen, borderButtonColor, downButtonDraw, 2)
 
-def stoppedPosition():
+def stoppedPosition(statusPuente):
     if upButton.is_pressed or downButton.is_pressed:
         pg.Surface.fill(screen, backColor)
         printAll()
         stopPlatform()
-    return platformStatus()
+    return platformStatus(statusPuente)
 
 def buttonPress(mouseX, mouseY, button, status):
     if mouseX > button[0] and mouseX < button[0] + button[2] and (status == "Arriba" or status == "Abajo"):
@@ -146,7 +147,7 @@ while running == True:
     elif buttonPress(mousePos[0], mousePos[1], buttons[1], statusPuente):
         if click[0] == 1 and statusPuente == "Arriba":
             platformDown()
-            statusPuente = "Bajando"
+            statusPuenteAnimado = "Bajando"
             drawText("Bajando", 350, 200, textColor)
             if downButton.is_pressed:
                 statusPuente = "Abajo"
@@ -154,7 +155,7 @@ while running == True:
                 stopPlatform()
             pg.time.wait(3000)
 
-    elif statusPuente == "Subiendo":
+    if statusPuente == "Subiendo":
         drawText("Subiendo", 350, 200, textColor)
         if fase < 3:
             fase += 1
@@ -167,7 +168,7 @@ while running == True:
         else:
             fase = 3
 
-    statusPuente = stoppedPosition()
+    statusPuente = stoppedPosition(statusPuente)
     printPlatform(fase)
 
     clock.tick(30)
