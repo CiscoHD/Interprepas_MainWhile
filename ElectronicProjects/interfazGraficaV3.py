@@ -6,7 +6,7 @@ output1 = gz.OutputDevice(14)
 output2 = gz.OutputDevice(15)
 enable1 = gz.PWMOutputDevice(18)
 enable2 = gz.PWMOutputDevice(13)
-servo = gz.Servo(23, min_pulse_width=0.0005, max_pulse_width=0.002)
+servo = gz.Servo(23, min_pulse_width=0.001, max_pulse_width=0.002)
 upButton = gz.Button(2, pull_up=True)
 downButton = gz.Button(3, pull_up=True)
 
