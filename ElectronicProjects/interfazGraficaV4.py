@@ -156,14 +156,14 @@ while running == True:
                 stopPlatform()
             pg.time.wait(3000)
 
-    if statusPuente == "Subiendo":
-        drawText("Subiendo", 350, 200, textColor)
+    if statusPuente == "Bajando":
+        drawText("Bajando", 350, 500, textColor)
         if fase < 3:
             fase += 1
         else:
             fase = 0
-    elif statusPuente == "Bajando":
-        drawText("Bajando", 350, 200, textColor)
+    elif statusPuente == "Subiendo":
+        drawText("Subiendo", 350, 200, textColor)
         if fase > 0:
             fase -= 1
         else:
@@ -173,7 +173,7 @@ while running == True:
     printAll()
     printPlatform(fase)
 
-    clock.tick(30)
+    clock.tick(5)
     pg.display.flip()
 
     for event in pg.event.get():
