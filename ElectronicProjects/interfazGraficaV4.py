@@ -148,7 +148,7 @@ while running == True:
     elif buttonPress(mousePos[0], mousePos[1], buttons[1], statusPuente):
         if click[0] == 1 and statusPuente == "Arriba":
             platformDown()
-            statusPuenteAnimado = "Bajando"
+            statusPuente = "Bajando"
             drawText("Bajando", 350, 200, textColor)
             if downButton.is_pressed:
                 statusPuente = "Abajo"
