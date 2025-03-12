@@ -155,7 +155,6 @@ while running == True:
                 fase = 1
                 stopPlatform()
             pg.time.wait(3000)
-
     if statusPuente == "Bajando":
         drawText("Bajando", 350, 500, textColor)
         if fase < 3:
@@ -168,7 +167,10 @@ while running == True:
             fase -= 1
         else:
             fase = 3
-
+    if statusPuente == "Abajo":
+        fase = 3
+    else:
+        fase = 0
     statusPuente = stoppedPosition(statusPuente)
     printAll()
     printPlatform(fase)
