@@ -129,6 +129,7 @@ def drawText (texto, x, y, color):
     varText = font.render(texto, True, color)
     screen.blit(varText, (x, y))
 
+printAll()
 while running == True:
     mousePos = pg.mouse.get_pos()
     click = pg.mouse.get_pressed()
@@ -169,6 +170,7 @@ while running == True:
             fase = 3
 
     statusPuente = stoppedPosition(statusPuente)
+    printAll()
     printPlatform(fase)
 
     clock.tick(30)
