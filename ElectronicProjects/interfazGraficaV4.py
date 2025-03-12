@@ -169,7 +169,7 @@ while running == True:
             fase = 3
     if statusPuente == "Abajo":
         fase = 3
-    else:
+    elif statusPuente == "Arriba":
         fase = 0
     statusPuente = stoppedPosition(statusPuente)
     printAll()
