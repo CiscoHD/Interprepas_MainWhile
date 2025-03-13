@@ -1,7 +1,7 @@
 import gpiozero as gpio
 from time import sleep
 
-sensor = gpio.DistanceSensor(echo=23, trigger=24)
+sensor = gpio.DistanceSensor(echo=20, trigger=21)
 
 try:
     while True:
