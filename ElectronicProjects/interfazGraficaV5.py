@@ -90,7 +90,7 @@ def platformStatus(statusPuente):
         return statusPuente
 
 def printPlatform(fase):
-    bridgePlatform = [160,60 + (1.7*fase), 490, 20] 
+    bridgePlatform = [160,60 + (1.7*(100-fase)), 490, 20] 
     pg.draw.rect(screen, bridgeColor, bridgePlatform, 0) 
     pg.draw.rect(screen, borderBridgeColor, bridgePlatform, 2)
 
@@ -153,7 +153,7 @@ while running == True:
             platformUp()
             closeServo()
             statusPuente = "Subiendo"
-            drawText("Puente subiendo al" + int(fase) + "%", 350, 200, textColor)
+            drawText("Puente subiendo al" + str(int(fase)) + "%", 350, 200, textColor)
             if upButton.is_pressed:
                 statusPuente = "Arriba"
                 stopPlatform()
@@ -163,7 +163,7 @@ while running == True:
         if click[0] == 1 and statusPuente == "Arriba":
             platformDown()
             statusPuente = "Bajando"
-            drawText("Bajando al " + (100 - int(fase)) + "%", 350, 200, textColor)
+            drawText("Bajando al " + str((100 - int(fase))) + "%", 350, 200, textColor)
             if downButton.is_pressed:
                 statusPuente = "Abajo"
                 stopPlatform()
@@ -172,7 +172,7 @@ while running == True:
         if click[0] == 1 and statusPuente  == "Paro_Emer":
             platformDown()
             statusPuente = "Bajando"
-            drawText("Bajando al " + (100 - int(fase)) + "%", 350, 200, textColor)
+            drawText("Bajando al " + str(100 - int(fase)) + "%", 350, 200, textColor)
     elif buttonPress(mousePos[0], mousePos[1], buttons[3], statusPuente):
         if click[0]:
             stopPlatform()
