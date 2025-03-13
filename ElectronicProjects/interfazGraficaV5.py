@@ -90,7 +90,7 @@ def platformStatus(statusPuente):
         return statusPuente
 
 def printPlatform(fase):
-    bridgePlatform = [160,60 + (1.7*(100-fase)), 490, 20] 
+    bridgePlatform = [160,60 + (1.7*(100+fase)), 490, 20] 
     pg.draw.rect(screen, bridgeColor, bridgePlatform, 0) 
     pg.draw.rect(screen, borderBridgeColor, bridgePlatform, 2)
 
