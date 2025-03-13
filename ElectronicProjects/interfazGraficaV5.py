@@ -54,11 +54,7 @@ bridgePillars = (pg.Rect(bridgeParts[2][0]), pg.Rect(bridgeParts[2][1]))
 drawButtons = (pg.Rect(buttons[0]), pg.Rect(buttons[1]), pg.Rect(buttons[2]), pg.Rect(buttons[3]))
 ilustration = pg.Rect(ilustrationDim)
 
-pg.draw.rect(screen, moveColor, buttons[0], 0)
-pg.draw.rect(screen, moveColor, buttons[1], 0)
-pg.draw.rect(screen, forceColor, buttons[2], 0)
-pg.draw.rect(screen, stopColor, buttons[3], 0)
-pg.draw.rect(screen, ilustrationColor, ilustrationDim, 0)
+# Removed redundant drawing calls outside the main loop
 
 def platformUp():
     enable1.value = 1
@@ -161,7 +157,7 @@ while running == True:
             if upButton.is_pressed:
                 statusPuente = "Arriba"
                 stopPlatform()
-            pg.time.wait(3000)
+            drawText("Puente subiendo al " + str(int(fase)) + "%", 350, 200, textColor)
     
     elif buttonPress(mousePos[0], mousePos[1], buttons[1], statusPuente):
         if click[0] == 1 and statusPuente == "Arriba":
@@ -171,7 +167,7 @@ while running == True:
             if downButton.is_pressed:
                 statusPuente = "Abajo"
                 stopPlatform()
-            pg.time.wait(3000)
+            drawText("Bajando al " + str(100 - int(fase)) + "%", 350, 200, textColor)
     elif buttonPress(mousePos[0], mousePos[1], buttons[2], statusPuente):
         if click[0] == 1 and statusPuente  == "Paro_Emer":
             platformDown()
@@ -187,7 +183,7 @@ while running == True:
     statusPuente = stoppedPosition(statusPuente)
     printAll()
     printPlatform(fase)
-    drawText()
+    drawText("Estado del puente: " + statusPuente, 350, 50, textColor)
 
     clock.tick(5)
     pg.display.flip()
