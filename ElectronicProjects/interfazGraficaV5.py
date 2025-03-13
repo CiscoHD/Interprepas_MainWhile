@@ -58,7 +58,7 @@ ilustration = pg.Rect(ilustrationDim)
 
 def platformUp():
     enable1.value = 1
-    enable2.value = .85
+    enable2.value = .825
     output1.on()
     output2.off()
 
