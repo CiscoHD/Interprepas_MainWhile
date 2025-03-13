@@ -132,8 +132,8 @@ def distanceToPercentage(distance):
     percentage = ((maxDistance - minDistance) - (maxDistance - distance)) * 100 / (maxDistance - minDistance)
     return percentage
 
-def buttonPress(mouseX, mouseY, button, status):
-    if mouseX > button[0] and mouseX < button[0] + button[2]: #and (status == "Arriba" or status == "Abajo" or status == "Paro_Emer"):
+def buttonPress(mouseX, mouseY, button):
+    if mouseX > button[0] and mouseX < button[0] + button[2]: 
         if mouseY > button[1] and mouseY < button[1] + button[3]:
             return True
         else:
@@ -150,7 +150,7 @@ while running == True:
     mousePos = pg.mouse.get_pos()
     click = pg.mouse.get_pressed()
 
-    if buttonPress(mousePos[0], mousePos[1], buttons[0], statusPuente):
+    if buttonPress(mousePos[0], mousePos[1], buttons[0]):
         if click[0] == 1 and statusPuente == "Abajo":
             platformUp()
             closeServo()
@@ -161,7 +161,7 @@ while running == True:
                 stopPlatform()
             drawText("Puente subiendo al " + str(int(fase)) + "%", 350, 200, textColor)
     
-    elif buttonPress(mousePos[0], mousePos[1], buttons[1], statusPuente):
+    elif buttonPress(mousePos[0], mousePos[1], buttons[1]):
         if click[0] == 1 and statusPuente == "Arriba":
             platformDown()
             statusPuente = "Bajando"
@@ -175,7 +175,7 @@ while running == True:
             platformDown()
             statusPuente = "Bajando"
             drawText("Bajando al " + str(100 - int(fase)) + "%", 350, 200, textColor)
-    elif buttonPress(mousePos[0], mousePos[1], buttons[3], statusPuente):
+    elif buttonPress(mousePos[0], mousePos[1], buttons[3]):
         if click[0]:
             stopPlatform()
             drawText("Paro Emer", 350, 200, textColor)
