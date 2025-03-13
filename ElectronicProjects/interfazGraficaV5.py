@@ -24,16 +24,17 @@ bridgeColor = pg.Color(176,118,2)
 borderBridgeColor = pg.Color(84,24,69)
 borderButtonColor = pg.Color(122,122,122)
 backColor = pg.Color(0,0,0)
-upColor = pg.Color(0,255,0)
-downColor = pg.Color(255,0,0)
+moveColor = pg.Color(0,255,0)
+forceColor = pg.Color(0,0,255)    
+stopColor = pg.Color(255,0,0)
 ilustrationColor = pg.Color(0,200,255)
 textColor = pg.Color(255,255,255)
 
 #variables de control
 statusPuente = "Abajo"
 running = True
-mousePos = (0,0)
-click = (0,0,0,0,0)
+mousePos = [0,0]
+click = [0,0,0,0,0]
 fase = 0
 lectSensor = 0
 minDistance = 9
@@ -42,19 +43,21 @@ maxDistance = 30
 
 #coordenadas
 bridgeParts = (((100,50,60,200), (650, 50, 60, 200)), ((80,250, 100, 60), (630, 250, 100, 60)), ((50, 310, 160, 30 ), (600, 310, 160, 30)))  
-buttons = ((200, 450, 100, 100), (500, 450,100,100))
+buttons = ((80, 450, 100, 100), (260, 450,100,100), (440, 450, 100, 100), (620, 450, 100, 100))
 ilustrationDim = (0, 0, 800, 400)
+
 
 #definirRectangulos
 bridgeSupports = (pg.Rect(bridgeParts[0][0]), pg.Rect(bridgeParts[0][1]))
 bridgeBase = (pg.Rect(bridgeParts[1][0]), pg.Rect(bridgeParts[1][1]))
 bridgePillars = (pg.Rect(bridgeParts[2][0]), pg.Rect(bridgeParts[2][1]))
-upButtonDraw = pg.Rect(buttons[0])
-downButtonDraw = pg.Rect(buttons[1])
+drawButtons = (pg.Rect(buttons[0]), pg.Rect(buttons[1]), pg.Rect(buttons[2]), pg.Rect(buttons[3]))
 ilustration = pg.Rect(ilustrationDim)
 
-pg.draw.rect(screen, upColor, buttons[0], 0)
-pg.draw.rect(screen, downColor, buttons[1], 0)
+pg.draw.rect(screen, moveColor, buttons[0], 0)
+pg.draw.rect(screen, moveColor, buttons[1], 0)
+pg.draw.rect(screen, forceColor, buttons[2], 0)
+pg.draw.rect(screen, stopColor, buttons[3], 0)
 pg.draw.rect(screen, ilustrationColor, ilustrationDim, 0)
 
 def platformUp():
@@ -85,12 +88,13 @@ def platformStatus(statusPuente):
     if upButton.is_pressed:
         return "Arriba"
     elif downButton.is_pressed:
+        openServo()
         return "Abajo"
     else:
         return statusPuente
 
 def printPlatform(fase):
-    bridgePlatform = [160,60 + (1.8*fase), 490, 20] 
+    bridgePlatform = [160,60 + (1.7*fase), 490, 20] 
     pg.draw.rect(screen, bridgeColor, bridgePlatform, 0) 
     pg.draw.rect(screen, borderBridgeColor, bridgePlatform, 2)
 
@@ -108,10 +112,15 @@ def printAll():
     pg.draw.rect(screen, borderBridgeColor, bridgePillars[0], 2)
     pg.draw.rect(screen, bridgeColor, bridgePillars[1], 0)
     pg.draw.rect(screen, borderBridgeColor, bridgePillars[1], 2)
-    pg.draw.rect(screen, upColor, upButtonDraw, 0)
-    pg.draw.rect(screen, borderButtonColor, upButtonDraw, 2)
-    pg.draw.rect(screen, downColor, downButtonDraw, 0)
-    pg.draw.rect(screen, borderButtonColor, downButtonDraw, 2)
+    pg.draw.rect(screen, moveColor, drawButtons[0], 0)
+    pg.draw.rect(screen, borderButtonColor, drawButtons[0], 2)
+    pg.draw.rect(screen, moveColor, drawButtons[1], 0)
+    pg.draw.rect(screen, borderButtonColor, drawButtons[1], 2)
+    pg.draw.rect(screen, forceColor, drawButtons[2], 0)
+    pg.draw.rect(screen, borderButtonColor, drawButtons[2], 2)
+    pg.draw.rect(screen, stopColor, drawButtons[3], 0)
+    pg.draw.rect(screen, borderButtonColor, drawButtons[3], 2)
+
 
 def stoppedPosition(statusPuente):
     if upButton.is_pressed or downButton.is_pressed:
@@ -126,7 +135,7 @@ def distanceToPercentage(distance):
     return percentage
 
 def buttonPress(mouseX, mouseY, button, status):
-    if mouseX > button[0] and mouseX < button[0] + button[2] and (status == "Arriba" or status == "Abajo"):
+    if mouseX > button[0] and mouseX < button[0] + button[2]: #and (status == "Arriba" or status == "Abajo" or status == "Paro_Emer"):
         if mouseY > button[1] and mouseY < button[1] + button[3]:
             return True
         else:
@@ -148,9 +157,9 @@ while running == True:
             platformUp()
             closeServo()
             statusPuente = "Subiendo"
+            drawText("Puente subiendo al" + int(fase) + "%", 350, 200, textColor)
             if upButton.is_pressed:
                 statusPuente = "Arriba"
-                fase = 0
                 stopPlatform()
             pg.time.wait(3000)
     
@@ -158,34 +167,27 @@ while running == True:
         if click[0] == 1 and statusPuente == "Arriba":
             platformDown()
             statusPuente = "Bajando"
-            drawText("Bajando", 450, 200, textColor)
+            drawText("Bajando al " + (100 - int(fase)) + "%", 350, 200, textColor)
             if downButton.is_pressed:
                 statusPuente = "Abajo"
-                fase = 1
                 stopPlatform()
             pg.time.wait(3000)
-    if statusPuente == "Bajando":
-        drawText("Bajando", 450, 500, textColor)
-        if fase < 3:
-            fase += 1
-        else:
-            fase = 0
-    elif statusPuente == "Subiendo":
-        drawText("Subiendo", 450, 200, textColor)
-        if fase > 0:
-            fase -= 1
-        else:
-            fase = 3
-    if statusPuente == "Abajo":
-        fase = 3
-    elif statusPuente == "Arriba":
-        fase = 0
-    
+    elif buttonPress(mousePos[0], mousePos[1], buttons[2], statusPuente):
+        if click[0] == 1 and statusPuente  == "Paro_Emer":
+            platformDown()
+            statusPuente = "Bajando"
+            drawText("Bajando al " + (100 - int(fase)) + "%", 350, 200, textColor)
+    elif buttonPress(mousePos[0], mousePos[1], buttons[3], statusPuente):
+        if click[0]:
+            stopPlatform()
+            drawText("Paro Emer", 350, 200, textColor)
+            statusPuente = "Paro_Emer"
     lectSensor = distanceSensor.distance
     fase = distanceToPercentage(lectSensor)
     statusPuente = stoppedPosition(statusPuente)
     printAll()
     printPlatform(fase)
+    drawText()
 
     clock.tick(5)
     pg.display.flip()
@@ -193,6 +195,3 @@ while running == True:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             running = False
-
-#añadir botón paro de emergencia
-#añadir boton forzar encendido 
