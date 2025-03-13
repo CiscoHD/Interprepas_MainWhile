@@ -33,8 +33,8 @@ textColor = pg.Color(255,255,255)
 #variables de control
 statusPuente = "Paro_Emer"
 running = True
-mousePos = [0,0]
-click = [0,0,0,0,0]
+mousePos = (0,0)
+click = (0,0,0,0,0)
 fase = 0
 lectSensor = 0
 minDistance = 9
