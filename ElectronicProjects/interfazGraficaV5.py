@@ -58,7 +58,7 @@ ilustration = pg.Rect(ilustrationDim)
 
 def platformUp():
     enable1.value = 1
-    enable2.value = .825
+    enable2.value = .82
     output1.on()
     output2.off()
 
@@ -70,7 +70,7 @@ def stopPlatform():
 
 def platformDown():
     enable1.value = 1
-    enable2.value = .825
+    enable2.value = .81
     output1.off()
     output2.on()
 
@@ -160,7 +160,7 @@ while running == True:
                 statusPuente = "Arriba"
                 stopPlatform()
             drawText("Puente subiendo al " + str(int(fase)) + "%", 350, 200, textColor)
-            pg.time.wait(3000)
+            pg.time.wait(1000)
     elif buttonPress(mousePos[0], mousePos[1], buttons[1]):
         if click[0] == 1 and statusPuente == "Arriba":
             platformDown()
@@ -170,7 +170,7 @@ while running == True:
                 statusPuente = "Abajo"
                 stopPlatform()
             drawText("Bajando al " + str(100 - int(fase)) + "%", 350, 200, textColor)
-            pg.time.wait(3000)
+            pg.time.wait(1000)
     elif buttonPress(mousePos[0], mousePos[1], buttons[2]):
         if click[0] == 1 and statusPuente  == "Paro_Emer":
             platformDown()
