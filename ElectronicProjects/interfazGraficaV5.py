@@ -70,7 +70,7 @@ def stopPlatform():
 
 def platformDown():
     enable1.value = 1
-    enable2.value = .9
+    enable2.value = .825
     output1.off()
     output2.on()
 
