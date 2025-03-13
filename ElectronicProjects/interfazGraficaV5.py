@@ -170,7 +170,7 @@ while running == True:
                 statusPuente = "Abajo"
                 stopPlatform()
             drawText("Bajando al " + str(100 - int(fase)) + "%", 350, 200, textColor)
-    elif buttonPress(mousePos[0], mousePos[1], buttons[2], statusPuente):
+    elif buttonPress(mousePos[0], mousePos[1], buttons[2]):
         if click[0] == 1 and statusPuente  == "Paro_Emer":
             platformDown()
             statusPuente = "Bajando"
