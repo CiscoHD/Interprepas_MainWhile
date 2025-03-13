@@ -116,6 +116,8 @@ def printAll():
     pg.draw.rect(screen, borderButtonColor, drawButtons[2], 2)
     pg.draw.rect(screen, stopColor, drawButtons[3], 0)
     pg.draw.rect(screen, borderButtonColor, drawButtons[3], 2)
+    pg.draw.polygon(screen, moveColor, [(100, 500), (160, 500), (130, 460)]) 
+    pg.draw.polygon(screen, moveColor, [(280, 500), (340, 500), (310, 460)])
 
 
 def stoppedPosition(statusPuente):
@@ -183,7 +185,7 @@ while running == True:
     statusPuente = stoppedPosition(statusPuente)
     printAll()
     printPlatform(fase)
-    drawText("Estado del puente: " + statusPuente, 350, 50, textColor)
+    drawText("Estado del puente: " + statusPuente, 350, 450, textColor)
 
     clock.tick(5)
     pg.display.flip()
