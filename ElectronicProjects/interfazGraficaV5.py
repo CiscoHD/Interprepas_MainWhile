@@ -31,7 +31,7 @@ ilustrationColor = pg.Color(0,200,255)
 textColor = pg.Color(255,255,255)
 
 #variables de control
-statusPuente = "Abajo"
+statusPuente = "Paro_Emer"
 running = True
 mousePos = [0,0]
 click = [0,0,0,0,0]
