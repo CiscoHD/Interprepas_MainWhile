@@ -13,8 +13,7 @@ downButton = gz.Button(3, pull_up=True)
 #Set up the pygamen window
 pg.init()
 info = pg.display.Info()
-width, height = info.current_w, info.current_h
-screen = pg.display.set_mode((width, height))
+screen = pg.display.set_mode((800, 600))
 pg.display.set_caption("Control de puente móvil")   
 clock = pg.time.Clock()
 font = pg.font.Font(None, 36)
