@@ -155,38 +155,38 @@ while running == True:
             platformUp()
             closeServo()
             statusPuente = "Subiendo"
-            drawText("Puente subiendo al" + str(int(fase)) + "%", 350, 200, textColor)
+            drawText("Puente subiendo al" + str(int(fase)) + "%", 300, 250, textColor)
             if upButton.is_pressed:
                 statusPuente = "Arriba"
                 stopPlatform()
-            drawText("Puente subiendo al " + str(int(fase)) + "%", 350, 200, textColor)
+            drawText("Puente subiendo al " + str(int(fase)) + "%", 300, 250, textColor)
             pg.time.wait(1000)
     elif buttonPress(mousePos[0], mousePos[1], buttons[1]):
         if click[0] == 1 and statusPuente == "Arriba":
             platformDown()
             statusPuente = "Bajando"
-            drawText("Bajando al " + str((100 - int(fase))) + "%", 350, 200, textColor)
+            drawText("Bajando al " + str((100 - int(fase))) + "%", 300, 250, textColor)
             if downButton.is_pressed:
                 statusPuente = "Abajo"
                 stopPlatform()
-            drawText("Bajando al " + str(100 - int(fase)) + "%", 350, 200, textColor)
+            drawText("Bajando al " + str(100 - int(fase)) + "%", 300, 250, textColor)
             pg.time.wait(1000)
     elif buttonPress(mousePos[0], mousePos[1], buttons[2]):
         if click[0] == 1 and statusPuente  == "Paro_Emer":
             platformDown()
             statusPuente = "Bajando"
-            drawText("Bajando al " + str(100 - int(fase)) + "%", 350, 200, textColor)
+            drawText("Bajando al " + str(100 - int(fase)) + "%", 300, 250, textColor)
     elif buttonPress(mousePos[0], mousePos[1], buttons[3]):
         if click[0]:
             stopPlatform()
-            drawText("Paro Emer", 350, 200, textColor)
+            drawText("Paro Emer", 300, 250, textColor)
             statusPuente = "Paro_Emer"
     lectSensor = distanceSensor.distance
     fase = distanceToPercentage(lectSensor)
     statusPuente = stoppedPosition(statusPuente)
     printAll()
     printPlatform(fase)
-    drawText("Estado del puente: " + statusPuente, 350, 450, textColor)
+    drawText("Estado del puente: " + statusPuente, 350, 250, textColor)
 
     clock.tick(5)
     pg.display.flip()
