@@ -24,7 +24,7 @@ borderBridgeColor = pg.Color(84,24,69)
 borderButtonColor = pg.Color(122,122,122)
 backColor = pg.Color(0,0,0)
 moveColor = pg.Color(0,255,0)
-forceColor = pg.Color(0,0,255)    
+forceColor = pg.Color(0,0,255)
 stopColor = pg.Color(255,0,0)
 ilustrationColor = pg.Color(0,200,255)
 textColor = pg.Color(255,255,255)
@@ -37,14 +37,14 @@ click = (0,0,0,0,0)
 fase = 0
 lectSensor = 0
 minDistance = 9
-maxDistance = 30  
+maxDistance = 30
 
 
 #coordenadas
 bridgeParts = (((100,50,60,200), (650, 50, 60, 200)), ((80,250, 100, 60), (630, 250, 100, 60)), ((50, 310, 160, 30 ), (600, 310, 160, 30)))  
 buttons = ((80, 450, 100, 100), (260, 450,100,100), (440, 450, 100, 100), (620, 450, 100, 100))
 ilustrationDim = (0, 0, 800, 400)
-textos = (300,300)
+textos = (250,300)
 
 
 
@@ -71,7 +71,7 @@ def stopPlatform():
 
 def platformDown():
     enable1.value = 1
-    enable2.value = .81
+    enable2.value = .78
     output1.off()
     output2.on()
 

@@ -10,7 +10,7 @@ servo = gz.Servo(23, min_pulse_width=0.0005, max_pulse_width=0.0025)
 upButton = gz.Button(2, pull_up=True)
 downButton = gz.Button(3, pull_up=True)
 distanceSensor1 = gz.DistanceSensor(echo=20, trigger=21)
-distanceSensor2 = gz.DistanceSensor(echo=5, trigger=6)
+distanceSensor2 = gz.DistanceSensor(echo=6, trigger=5)
 
 #Set up the pygamen window
 pg.init()

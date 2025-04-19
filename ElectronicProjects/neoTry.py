@@ -1,10 +1,28 @@
+import time
+
+import adafruit_pixelbuf
 import board
-import neopixel
+from adafruit_raspberry_pi5_neopixel_write import neopixel_write
+from  adafruit_led_animation.animation.pulse import Pulse
+NEOPIXEL = board.D17
+num_pixels = 8
 
-LED_COUNT = 8       # Número de LEDs en la tira
-PIN = board.D18     # GPIO 18
+class Pi5Pixelbuf(adafruit_pixelbuf.PixelBuf):
+    def __init__(self, pin, size, **kwargs):
+        self._pin = pin
+        super().__init__(size=size, **kwargs)
 
-pixels = neopixel.NeoPixel(PIN, LED_COUNT, brightness=0.3, auto_write=False)
+    def _transmit(self, buf):
+        neopixel_write(self._pin, buf)
 
-pixels.fill((255, 0, 0))  # Rojo
-pixels.show()
+pixels = Pi5Pixelbuf(NEOPIXEL, num_pixels, auto_write=True, byteorder="BGR")
+
+animation = Pulse(pixels, speed=0.01, color= (255, 0, 0), period=1)
+
+try:
+    while True:
+        animation.animate()
+finally:
+    time.sleep(.02)
+    pixels.fill(0)
+    pixels.show()
