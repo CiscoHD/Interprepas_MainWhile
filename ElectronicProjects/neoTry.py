@@ -4,7 +4,7 @@ import adafruit_pixelbuf
 import board
 from adafruit_raspberry_pi5_neopixel_write import neopixel_write
 from  adafruit_led_animation.animation.pulse import Pulse
-NEOPIXEL = board.D17
+NEOPIXEL = board.D12
 num_pixels = 8
 
 class Pi5Pixelbuf(adafruit_pixelbuf.PixelBuf):

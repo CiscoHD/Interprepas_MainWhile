@@ -15,7 +15,7 @@ servo = gz.Servo(23, min_pulse_width=0.0005, max_pulse_width=0.0025)
 upButton = gz.Button(2, pull_up=True)
 downButton = gz.Button(3, pull_up=True)
 distanceSensor = gz.DistanceSensor(echo=20, trigger=21)
-NEOPIXEL = board.D17
+NEOPIXEL = board.D12
 
 #Set up the pygamen window
 pg.init()
